@@ -44,6 +44,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: get tags again
+        id: get-tags
+        run: |
+          echo "VERSION_ID=$(git fetch --tags -f && git tag -l | sort -V | awk 'END{print}')" >> $GITHUB_ENV
       -
         name: deploy
         run: |
