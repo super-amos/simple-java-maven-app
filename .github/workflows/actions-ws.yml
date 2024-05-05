@@ -29,7 +29,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: get tags
         id: get-tags
-        run: echo $(git fetch --tags -f && git tag | awk 'END{print}') >> $GITHUB_OUTPUT
+        run: |
+          echo $(git fetch --tags -f && git tag | awk 'END{print}') >> $GITHUB_OUTPUT
       -
         name: docker push
         uses: docker/build-push-action@v5
