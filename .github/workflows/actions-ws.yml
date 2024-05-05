@@ -41,4 +41,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:${{ emy_tag.outputs.tag }}
+          tags: amosops/actions-ws:${{ my_tag.outputs.tag }}
