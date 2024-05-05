@@ -44,6 +44,5 @@ jobs:
       -
         name: pull and run
         run: |
-          sudo docker rmi amosops/actions-ws:${{ env.VERSION_ID }}
           sudo docker pull amosops/actions-ws:${{ env.VERSION_ID }}
           sudo docker run --name deploy-action-ws -d amosops/action-ws:${{ env.VERSION_ID }}
