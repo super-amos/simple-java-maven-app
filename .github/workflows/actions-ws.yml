@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+env:
+  VERSION_ID: ${{ github.event.release.tag_name }}
   
 jobs:
   docker:
