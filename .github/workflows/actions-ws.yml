@@ -45,6 +45,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:${{steps.tag.outputs.tag}
+          tags: amosops/actions-ws:${{steps.tag.outputs.tag}}
           build-args: |
             VERSION_ID=${{ env.VERSION_ID }}
