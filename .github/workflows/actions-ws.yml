@@ -41,7 +41,7 @@ jobs:
         name: docker push
         uses: docker/build-push-action@v5
         env:
-          VERSION_ID: ${{steps.tag.outputs.tag}
+          VERSION_ID: ${{steps.tag.outputs.tag}}
         with:
           context: .
           push: true
