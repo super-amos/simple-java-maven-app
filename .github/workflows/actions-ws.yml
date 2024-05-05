@@ -11,23 +11,25 @@ jobs:
     permissions:
       contents: write
     uses: ProdigySim/action-versioning-workflow/.github/workflows/action_versioning.yml@v1
-  
+    
   docker:
     runs-on: ubuntu-latest
     steps:
       -
         name: Checkout
         uses: actions/checkout@v4
+      
       - 
-        name: Get tag
-        id: tag
-        uses: devops-actions/action-get-tag@v1.0.1
+        uses: olegtarasov/get-tag@v2.1.3
+        name: Get the tag
+        id: tagName
         with:
-          strip_v: true # Optional: Remove 'v' character from version
-          default: v0.0.0 # Optional: Default version when tag not found
+          tagRegex: "foobar-(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
+          tagRegexGroup: 1 # Optional. Default is 1.
       - 
-        name: Use tag
-        run: echo ${{steps.tag.outputs.tag}}
+        name: print tag
+        with:
+          tagname: ${{ steps.tagName.outputs.tag }}
       -
         name: docker build
         uses: docker/setup-buildx-action@v3
@@ -41,10 +43,10 @@ jobs:
         name: docker push
         uses: docker/build-push-action@v5
         env:
-          VERSION_ID: ${{steps.tag.outputs.tag}}
+          VERSION_ID: ${{ steps.tagName.outputs.tag }}
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:${{steps.tag.outputs.tag}}
+          tags: amosops/actions-ws:${{ steps.tagName.outputs.tag }}
           build-args: |
             VERSION_ID=${{ env.VERSION_ID }}
