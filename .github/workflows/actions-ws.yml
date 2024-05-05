@@ -37,8 +37,8 @@ jobs:
         name: docker push
         uses: docker/build-push-action@v5
         env:
-          VERSION_ID: ${{ github.event.release.tag_name }}
+          VERSION_ID: ${{ steps.my_tag.outputs.tag }}
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:${{ my_tag.outputs.tag }}
+          tags: amosops/actions-ws:${{ steps.my_tag.outputs.tag }}
