@@ -41,3 +41,5 @@ jobs:
           context: .
           push: true
           tags: amosops/actions-ws:${{  github.ref_name }}
+          build-args: |
+            VERSION_ID=${{ env.VERSION_ID }}
