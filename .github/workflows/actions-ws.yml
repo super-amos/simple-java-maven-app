@@ -19,10 +19,12 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
       - 
-        name: GitHub Tag Name example
-        run: |
-          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+        name: Get current tag
+        id: get-current-tag
+        uses: zingimmick/github-action-get-current-tag@v1
+      - 
+        name: Print tag
+        run: echo ${{steps.get-current-tag.outputs.tag}}
       -
         name: docker build
         uses: docker/setup-buildx-action@v3
@@ -36,10 +38,10 @@ jobs:
         name: docker push
         uses: docker/build-push-action@v5
         env:
-          VERSION_ID: ${{  github.ref_name }}
+          VERSION_ID: ${{steps.get-current-tag.outputs.tag}}
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:${{  github.ref_name }}
+          tags: amosops/actions-ws:${{steps.get-current-tag.outputs.tag}}
           build-args: |
             VERSION_ID=${{ env.VERSION_ID }}
