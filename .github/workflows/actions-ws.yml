@@ -30,7 +30,7 @@ jobs:
       - name: get tags
         id: get-tags
         run: |
-          echo "VERSION_ID=$(git fetch --tags -f && git tag | awk 'END{print}')" >> $GITHUB_ENV
+          echo "VERSION_ID=$(git fetch --tags -f && git tag -l | sort -V | awk 'END{print}')" >> $GITHUB_ENV
       -
         name: docker push
         uses: docker/build-push-action@v5
