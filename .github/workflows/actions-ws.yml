@@ -46,4 +46,4 @@ jobs:
         run: |
           sudo docker system prune -f
           sudo docker pull amosops/actions-ws:${{ env.VERSION_ID }}
-          sudo docker run --name deploy-actions-ws -d amosops/action-ws:${{ env.VERSION_ID }}
+          sudo docker run --name deploy-actions-ws -d amosops/actions-ws:${{ env.VERSION_ID }}
