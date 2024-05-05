@@ -28,7 +28,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: get tags
-        run: export VERSION_ID=$(git fetch --tags && git tag | awk 'END{print}')
+        run: export VERSION_ID=$(git fetch --tags -f && git tag | awk 'END{print}')
       -
         name: docker push
         uses: docker/build-push-action@v5
