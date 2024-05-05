@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Checkout
-        uses: actions/checkout@v4
-      -
         name: docker build
         uses: docker/setup-buildx-actoin@v3
         with:
@@ -23,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: docker push
-        uses: docker/build-push-actions@v5
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
