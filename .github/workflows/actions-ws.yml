@@ -12,7 +12,8 @@ jobs:
       contents: write
     uses: ProdigySim/action-versioning-workflow/.github/workflows/action_versioning.yml@v1
     
-  docker:
+  docker-build:
+    needs: versioning
     runs-on: ubuntu-latest
     steps:
       -
@@ -41,15 +42,16 @@ jobs:
           build-args: |
             VERSION_ID=${{ env.VERSION_ID }}
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: get tags again
-        id: get-tags
-        run: |
-          echo "VERSION_ID=$(git fetch --tags -f && git tag -l | sort -V | awk 'END{print}')" >> $GITHUB_ENV
-      -
-        name: deploy
-        run: |
-          docker pull amosops/actions-ws:${{ env.VERSION_ID }}
-          docker run --name deploy-action-ws -d amosops/action-ws:${{ env.VERSION_ID }}
+    deploy:
+      needs: docker-build
+      runs-on: ubuntu-latest
+      steps:
+        - name: get tags again
+          id: get-tags
+          run: |
+            echo "VERSION_ID=$(git fetch --tags -f && git tag -l | sort -V | awk 'END{print}')" >> $GITHUB_ENV
+        -
+          name: deploy
+          run: |
+            docker pull amosops/actions-ws:${{ env.VERSION_ID }}
+            docker run --name deploy-action-ws -d amosops/action-ws:${{ env.VERSION_ID }}
