@@ -23,3 +23,5 @@ jobs:
         uses: docker/build-push-actions@v5
         with:
           context: .
+          push: true
+          tags: amosops/actions-ws:1.0.${{github.run_number}}
