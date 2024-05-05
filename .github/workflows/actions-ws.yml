@@ -40,3 +40,8 @@ jobs:
           tags: amosops/actions-ws:${{ env.VERSION_ID }}
           build-args: |
             VERSION_ID=${{ env.VERSION_ID }}
+      -
+        name: deploy
+        run: |
+          docker pull amosops/actions-ws:${{ env.VERSION_ID }}
+          docker run --name deploy-action-ws -d amosops/action-ws:${{ env.VERSION_ID }}
