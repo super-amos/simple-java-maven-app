@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - master
-env:
-  VERSION_ID: ${{ github.event.release.tag_name }}
   
 jobs:
 
@@ -20,6 +18,12 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v4
+      - 
+        name: Get previous tag
+        id: my_tag
+        uses: 'WyriHaximus/github-action-get-previous-tag@v1'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: docker build
         uses: docker/setup-buildx-action@v3
@@ -32,7 +36,9 @@ jobs:
       -
         name: docker push
         uses: docker/build-push-action@v5
+        env:
+          VERSION_ID: ${{ github.event.release.tag_name }}
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:${{ env.VERSION.ID }}
+          tags: amosops/actions-ws:${{ emy_tag.outputs.tag }}
