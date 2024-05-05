@@ -30,13 +30,13 @@ jobs:
       - name: get tags
         id: get-tags
         run: |
-          echo $(git fetch --tags -f && git tag | awk 'END{print}') >> $GITHUB_OUTPUT
+          echo "VERSION_ID=$(git fetch --tags -f && git tag | awk 'END{print}')" >> $GITHUB_ENV
       -
         name: docker push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:${{ steps.get-tags.output }}
+          tags: amosops/actions-ws:${{ env.VERSION_ID }}
           build-args: |
-            VERSION_ID=${{ steps.get-tags.output }}
+            VERSION_ID=${{ env.VERSION_ID }}
