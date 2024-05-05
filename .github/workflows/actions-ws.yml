@@ -26,10 +26,6 @@ jobs:
         with:
           tagRegex: "foobar-(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
           tagRegexGroup: 1 # Optional. Default is 1.
-      - 
-        name: print tag
-        with:
-          tagname: ${{ steps.tagName.outputs.tag }}
       -
         name: docker build
         uses: docker/setup-buildx-action@v3
