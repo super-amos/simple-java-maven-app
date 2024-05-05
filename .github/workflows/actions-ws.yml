@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - master
+
+env:
+  VERSION_ID: ${{ github.event.release.tag_name }}
+  
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -10,6 +14,27 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v4
+      - 
+        name: Get previous tag
+        id: previoustag
+        uses: 'WyriHaximus/github-action-get-previous-tag@v1'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+      - 
+        name: Get next minor version
+        id: semver
+        uses: 'WyriHaximus/github-action-next-semvers@v1'
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
+      - 
+        name: Create release
+        id: create_release_id
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        with:
+          tag_name: ${{ steps.semver.outputs.patch }}
+          release_name: Release ${{ steps.semver.outputs.patch }}
       -
         name: docker build
         uses: docker/setup-buildx-action@v3
@@ -25,4 +50,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:1.0.${{github.run_number}}
+          tags: amosops/actions-ws:${{ github.event.release.tag_name }}
