@@ -35,4 +35,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: amosops/actions-ws:${{ github.event.release.tag_name }}
+          tags: amosops/actions-ws:${{ env.VERSION.ID }}
