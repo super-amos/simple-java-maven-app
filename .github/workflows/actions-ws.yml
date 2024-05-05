@@ -40,6 +40,10 @@ jobs:
           tags: amosops/actions-ws:${{ env.VERSION_ID }}
           build-args: |
             VERSION_ID=${{ env.VERSION_ID }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       -
         name: deploy
         run: |
