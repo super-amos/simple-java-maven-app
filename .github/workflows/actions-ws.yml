@@ -1,0 +1,25 @@
+name: actions-ws
+on:
+  push:
+    branches:
+      - master
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: docker build
+        uses: docker/setup-buildx-actoin@v3
+        with:
+          driver-opts: image=amosops/actions-ws:1.0.${{github.run_number}}
+      -
+        name: docker login
+        uses: docker/login-cation@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: docker push
+        uses: docker/build-push-actions@v5
+        with:
+          context: .
